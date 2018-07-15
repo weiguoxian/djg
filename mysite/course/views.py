@@ -23,7 +23,7 @@ class CourseListView(ListView):
 
 
 
-class UserMixin:  
+class UserMixin(object):  
     def get_queryset(self):
         qs = super(UserMixin, self).get_queryset()
         return qs.filter(user=self.request.user)

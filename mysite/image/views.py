@@ -11,15 +11,26 @@ from .models import Image
 @csrf_exempt
 @require_POST
 def upload_image(request):
-    form = ImageForm(data=request.POST) 
-    if form.is_valid():
+    if request.method == "POST":
+        form = ImageForm(data=request.POST)
         try:
             new_item = form.save(commit=False)
             new_item.user = request.user
             new_item.save() 
             return JsonResponse({'status':"1"})   
-        except:
+        except Exception, ex:
+            print "wgx ex:", ex
             return JsonResponse({'status':"0"})
+        #if form.is_valid():
+        #   try:
+        #     new_item = form.save(commit=False)
+        #     new_item.user = request.user
+        #     new_item.save() 
+        #     return JsonResponse({'status':"1"})   
+        #    except:
+        #        return JsonResponse({'status':"0"})
+        #else:
+        #    return JsonResponse({'status':"0"})
 
 
 @login_required(login_url='/account/login/')
